@@ -9,6 +9,8 @@ import {
   Settings,
   GraduationCap,
 } from "lucide-vue-next";
+import { useCourseStore } from "../../stores/course";
+const courseStore = useCourseStore();
 </script>
 
 <template>
@@ -30,72 +32,99 @@ import {
     </div>
 
     <div class="space-y-2">
-      <button
-        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl bg-violet-50 text-violet-600"
+      <router-link
+        to="/"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
       >
         <House :size="20" />
         Dashboard
-      </button>
+      </router-link>
 
-      <button class="menu-btn">
+      <router-link
+        to="/focus"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/focus' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <Target :size="20" />
-        Fokus Belajar
-      </button>
+        Study Focus
+      </router-link>
 
-      <button class="menu-btn">
+      <router-link 
+        to="/courses"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/courses' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <BookOpen :size="20" />
-        Mata Kuliah
-      </button>
+        Courses
+      </router-link>
     </div>
 
     <div class="border-t border-slate-200 my-8"></div>
 
     <div class="space-y-2">
-      <button class="menu-btn">
+      <router-link
+        to="/statistics"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/statistics' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <BarChart3 :size="20" />
-        Statistik
-      </button>
+        Statistics
+      </router-link>
 
-      <button class="menu-btn">
+      <router-link 
+        to="/calendar"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/calendar' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <Calendar :size="20" />
-        Kalender
-      </button>
+        Calendar
+      </router-link>
 
-      <button class="menu-btn">
+      <router-link
+        to="/notes"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/notes' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <FileText :size="20" />
-        Catatan
-      </button>
+        Notes
+      </router-link>
 
-      <button class="menu-btn">
+      <router-link
+        to="/settings"
+        class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-colors"
+        :class="$route.path === '/settings' ? 'bg-violet-50 text-violet-600 font-bold' : 'text-slate-500 hover:bg-slate-50'"
+      >
         <Settings :size="20" />
-        Pengaturan
-      </button>
+        Settings
+      </router-link>
     </div>
 
     <div class="mt-auto">
       <div class="bg-white rounded-3xl p-5 border border-slate-100">
-        <h3 class="font-semibold text-violet-600">Semester 5</h3>
+        <h3 class="font-semibold text-violet-600">Current Progress</h3>
 
         <div class="mt-5">
-          <p class="text-slate-500 text-sm">IPK Saat Ini</p>
+          <p class="text-slate-500 text-sm">Mastered</p>
 
-          <div class="text-4xl font-bold mt-1">3.47</div>
+          <div class="text-4xl font-bold mt-1">{{ courseStore.completedModules }}</div>
         </div>
 
         <div class="mt-5">
-          <p class="text-slate-500 text-sm">Target IPK</p>
+          <p class="text-slate-500 text-sm">Total Modules</p>
 
-          <div class="text-4xl font-bold text-violet-500 mt-1">4.00</div>
+          <div class="text-4xl font-bold text-violet-500 mt-1">{{ courseStore.totalModules }}</div>
         </div>
 
         <div class="mt-5">
           <div class="h-3 bg-slate-100 rounded-full">
             <div
-              class="h-3 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 w-[86%]"
+              class="h-3 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 transition-all duration-500"
+              :style="{ width: `${courseStore.masteryPercentage}%` }"
             />
           </div>
 
-          <p class="mt-3 text-sm text-slate-500">86.8% menuju target</p>
+          <p class="mt-3 text-sm text-slate-500">{{ courseStore.masteryPercentage }}% towards target</p>
         </div>
       </div>
     </div>
